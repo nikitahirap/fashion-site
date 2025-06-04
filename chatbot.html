@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Assistant - Style Recommendations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="new.css">
+    <style>
+        :root {
+            --primary-color: #088178;
+            --secondary-color: #1a1a1a;
+            --accent-color: #e6a756;
+            --text-color: #333;
+            --light-bg: #E6E6FA;  /* Light lavender color */
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .chatbot-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .chatbot-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, rgba(8,129,120,0.1), rgba(230,167,86,0.1));
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .chatbot-header .logo {
+            position: absolute;
+            left: 2rem;
+            top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-header .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .chatbot-header .logo img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        }
+
+        .chatbot-header h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInDown 1s ease;
+            padding-top: 1rem;
+        }
+
+        .chatbot-header p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            max-width: 1000px;
+            line-height: 1.6;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-box {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            height: 600px;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .chatbot-sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, var(--primary-color), #066c65);
+            padding: 2rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            pointer-events: none;
+        }
+
+        .chatbot-sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: var(--white);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .chatbot-sidebar h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .chatbot-sidebar ul {
+            list-style: none;
+        }
+
+        .chatbot-sidebar li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-sidebar li:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+
+        .chatbot-sidebar li i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-sidebar li:hover i {
+            transform: scale(1.2);
+        }
+
+        .chatbot-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.bot {
+            flex-direction: row;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 15px;
+            margin: 0 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message.bot .message-content {
+            background: var(--light-bg);
+            color: var(--text-color);
+        }
+
+        .message.user .message-content {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-avatar {
+            background: var(--secondary-color);
+        }
+
+        .chatbot-input {
+            padding: 1.5rem;
+            background: var(--white);
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .chatbot-input input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .chatbot-input button {
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input button:hover {
+            background: #066c65;
+            transform: translateY(-2px);
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quick-option {
+            padding: 0.5rem 1rem;
+            background: var(--light-bg);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+        }
+
+        .quick-option:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .product-suggestion {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-suggestion:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-suggestion img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-suggestion h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-suggestion p {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .product-suggestion .price {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .product-suggestion .description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .style-questionnaire {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .price-range input {
+            width: 100px;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .size-guide {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .size-guide table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .size-guide th, .size-guide td {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .size-guide th {
+            background: var(--light-bg);
+        }
+
+        .outfit-combination {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+        }
+
+        .outfit-item {
+            flex: 0 0 150px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .outfit-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .outfit-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .outfit-item .price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: var(--primary-color);
+        }
+
+        .seasonal-tips {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .seasonal-tips ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .seasonal-tips li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .seasonal-tips li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .special-offer {
+            background: linear-gradient(45deg, var(--primary-color), #066c65);
+            color: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .special-offer h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .special-offer .discount {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .special-offer .code {
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-box {
+                flex-direction: column;
+            }
+
+            .chatbot-sidebar {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="logo">
+                <img src="logo.png" alt="Cara Logo">
+            </div>
+            <h1>Fashion Assistant</h1>
+            <p>Get personalized clothing recommendations based on your style preferences. I can help you find the perfect outfits, suggest color combinations, and provide shopping tips tailored just for you.</p>
+        </div>
+
+        <div class="chatbot-box">
+            <div class="chatbot-sidebar">
+                <h2>What I Can Help With</h2>
+                <ul>
+                    <li><i class="fas fa-tshirt"></i> Style Recommendations</li>
+                    <li><i class="fas fa-palette"></i> Color Combinations</li>
+                    <li><i class="fas fa-calendar"></i> Seasonal Outfits</li>
+                    <li><i class="fas fa-user"></i> Personal Style Analysis</li>
+                    <li><i class="fas fa-shopping-bag"></i> Shopping Tips</li>
+                    <li><i class="fas fa-star"></i> Trending Items</li>
+                    <li><i class="fas fa-percentage"></i> Special Offers</li>
+                    <li><i class="fas fa-sync"></i> Outfit Combinations</li>
+                </ul>
+            </div>
+
+            <div class="chatbot-main">
+                <div class="chatbot-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            Hello! I'm your fashion assistant. I can help you find the perfect clothing items based on your preferences. What kind of clothing are you looking for today?
+                            <div class="quick-options">
+                                <div class="quick-option" onclick="handleQuickOption('casual')">Casual Wear</div>
+                                <div class="quick-option" onclick="handleQuickOption('formal')">Formal Wear</div>
+                                <div class="quick-option" onclick="handleQuickOption('sports')">Sports Wear</div>
+                                <div class="quick-option" onclick="handleQuickOption('accessories')">Accessories</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatbot-input">
+                    <input type="text" id="userInput" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        let currentQuestionnaire = null;
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.innerHTML = message;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleQuickOption(option) {
+            let response = '';
+            switch(option) {
+                case 'casual':
+                    response = "I can help you with casual wear! Would you like to see some trendy casual outfits?";
+                    break;
+                case 'formal':
+                    response = "Looking for formal wear? I can suggest some elegant options for your next formal event.";
+                    break;
+                case 'sports':
+                    response = "Sports wear it is! I can recommend comfortable and stylish athletic clothing.";
+                    break;
+                case 'accessories':
+                    response = "Accessories can make or break an outfit! What kind of accessories are you interested in?";
+                    break;
+            }
+            addMessage(response);
+        }
+
+        function generateRecommendation(userMessage) {
+            const message = userMessage.toLowerCase();
+            let recommendation = '';
+
+            if (message.includes('casual') || message.includes('everyday')) {
+                recommendation = `
+                    <div class="product-suggestion">
+                        <img src="img/products/f1.jpg" alt="Casual T-Shirt">
+                        <h4>Cartoon Astronaut T-Shirts</h4>
+                        <p class="price">₹78.00</p>
+                        <p class="description">Perfect for everyday casual wear! This comfortable t-shirt features a unique design and is made from soft, breathable fabric.</p>
+                        <div class="color-palette">
+                            <div class="color-option" style="background: #000000;"></div>
+                            <div class="color-option" style="background: #ffffff;"></div>
+                            <div class="color-option" style="background: #ff0000;"></div>
+                        </div>
+                        <div class="quick-options">
+                            <div class="quick-option" onclick="showStyleQuestionnaire('casual')">Get More Options</div>
+                            <div class="quick-option" onclick="showSizeGuide()">Size Guide</div>
+                            <div class="quick-option" onclick="window.location.href='sproduct.html?img=f1.jpg'">View Details</div>
+                        </div>
+                    </div>
+                    <div class="outfit-combination">
+                        <div class="outfit-item">
+                            <img src="img/products/f1.jpg" alt="T-Shirt">
+                            <h4>Cartoon Astronaut T-Shirt</h4>
+                            <p class="price">₹78.00</p>
+                        </div>
+                        <div class="outfit-item">
+                            <img src="img/products/f2.jpg" alt="Jeans">
+                            <h4>Classic Blue Jeans</h4>
+                            <p class="price">₹1,200.00</p>
+                        </div>
+                        <div class="outfit-item">
+                            <img src="img/products/f3.jpg" alt="Sneakers">
+                            <h4>Casual Sneakers</h4>
+                            <p class="price">₹2,500.00</p>
+                        </div>
+                    </div>
+                `;
+            } else if (message.includes('formal') || message.includes('business')) {
+                recommendation = `
+                    <div class="product-suggestion">
+                        <img src="img/products/f2.jpg" alt="Formal Shirt">
+                        <h4>Men's Green T-Shirt</h4>
+                        <p class="price">₹85.00</p>
+                        <p class="description">A versatile formal shirt that's perfect for business meetings and special occasions.</p>
+                        <div class="color-palette">
+                            <div class="color-option" style="background: #006400;"></div>
+                            <div class="color-option" style="background: #000000;"></div>
+                            <div class="color-option" style="background: #ffffff;"></div>
+                        </div>
+                        <div class="quick-options">
+                            <div class="quick-option" onclick="showStyleQuestionnaire('formal')">Get More Options</div>
+                            <div class="quick-option" onclick="showSizeGuide()">Size Guide</div>
+                            <div class="quick-option" onclick="window.location.href='sproduct.html?img=f2.jpg'">View Details</div>
+                        </div>
+                    </div>
+                    <div class="special-offer">
+                        <h3>Special Offer!</h3>
+                        <p>Get 20% off on formal wear</p>
+                        <div class="discount">20% OFF</div>
+                        <p>Use code:</p>
+                        <div class="code">FORMAL20</div>
+                    </div>
+                `;
+            } else if (message.includes('sports') || message.includes('athletic')) {
+                recommendation = `
+                    <div class="product-suggestion">
+                        <img src="img/products/f3.jpg" alt="Sports Wear">
+                        <h4>Men's Cartoon Astronaut T-Shirt</h4>
+                        <p class="price">₹68.00</p>
+                        <p class="description">Great for workouts and sports activities! Made from moisture-wicking fabric for maximum comfort.</p>
+                        <div class="color-palette">
+                            <div class="color-option" style="background: #0000ff;"></div>
+                            <div class="color-option" style="background: #ff0000;"></div>
+                            <div class="color-option" style="background: #ffffff;"></div>
+                        </div>
+                        <div class="quick-options">
+                            <div class="quick-option" onclick="showStyleQuestionnaire('sports')">Get More Options</div>
+                            <div class="quick-option" onclick="showSizeGuide()">Size Guide</div>
+                            <div class="quick-option" onclick="window.location.href='sproduct.html?img=f3.jpg'">View Details</div>
+                        </div>
+                    </div>
+                    <div class="seasonal-tips">
+                        <h3>Sports Wear Tips</h3>
+                        <ul>
+                            <li>Choose moisture-wicking fabrics for better performance</li>
+                            <li>Look for breathable materials to stay cool</li>
+                            <li>Consider compression wear for better support</li>
+                            <li>Check for UV protection in outdoor sports wear</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (message.includes('accessories')) {
+                recommendation = `
+                    <div class="product-suggestion">
+                        <img src="img/products/f4.jpg" alt="Accessories">
+                        <h4>Cherry Blossom Print Shirt</h4>
+                        <p class="price">₹55.00</p>
+                        <p class="description">Complete your look with these stylish accessories. Perfect for adding a touch of elegance to any outfit.</p>
+                        <div class="color-palette">
+                            <div class="color-option" style="background: #ff69b4;"></div>
+                            <div class="color-option" style="background: #ffffff;"></div>
+                            <div class="color-option" style="background: #000000;"></div>
+                        </div>
+                        <div class="quick-options">
+                            <div class="quick-option" onclick="showStyleQuestionnaire('accessories')">Get More Options</div>
+                            <div class="quick-option" onclick="showSizeGuide()">Size Guide</div>
+                            <div class="quick-option" onclick="window.location.href='sproduct.html?img=f4.jpg'">View Details</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                recommendation = "I understand you're looking for clothing. Could you please specify what type of clothing you're interested in? For example, casual wear, formal wear, or sports wear?";
+            }
+
+            return recommendation;
+        }
+
+        function showStyleQuestionnaire(category) {
+            const questions = {
+                casual: {
+                    question: "What's your preferred casual style?",
+                    options: ["Streetwear", "Minimalist", "Bohemian", "Preppy"]
+                },
+                formal: {
+                    question: "What occasion are you shopping for?",
+                    options: ["Business", "Wedding", "Party", "Interview"]
+                },
+                sports: {
+                    question: "What type of sports activities do you do?",
+                    options: ["Running", "Gym", "Yoga", "Team Sports"]
+                },
+                accessories: {
+                    question: "What type of accessories are you looking for?",
+                    options: ["Jewelry", "Bags", "Belts", "Shoes"]
+                }
+            };
+
+            const q = questions[category];
+            const questionnaire = `
+                <div class="style-questionnaire">
+                    <h3>${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map(opt => `
+                            <div class="option" onclick="handleStyleOption('${category}', '${opt}')">${opt}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            addMessage(questionnaire);
+            currentQuestionnaire = category;
+        }
+
+        function handleStyleOption(category, option) {
+            let response = '';
+            switch(category) {
+                case 'casual':
+                    response = `Based on your ${option} style preference, here are some recommendations:`;
+                    break;
+                case 'formal':
+                    response = `For ${option} occasions, consider these options:`;
+                    break;
+                case 'sports':
+                    response = `Perfect for ${option}! Here are some suitable options:`;
+                    break;
+                case 'accessories':
+                    response = `Here are some great ${option} options:`;
+                    break;
+            }
+            addMessage(response);
+            addMessage(generateRecommendation(`${category} ${option}`));
+        }
+
+        function showSizeGuide() {
+            const sizeGuide = `
+                <div class="size-guide">
+                    <h3>Size Guide</h3>
+                    <table>
+                        <tr>
+                            <th>Size</th>
+                            <th>Chest (cm)</th>
+                            <th>Waist (cm)</th>
+                            <th>Hip (cm)</th>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>86-91</td>
+                            <td>71-76</td>
+                            <td>86-91</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>91-96</td>
+                            <td>76-81</td>
+                            <td>91-96</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>96-101</td>
+                            <td>81-86</td>
+                            <td>96-101</td>
+                        </tr>
+                    </table>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">* Measurements are approximate. Please refer to our detailed size guide for more information.</p>
+                </div>
+            `;
+            addMessage(sizeGuide);
+        }
+
+        function showPriceRange() {
+            const priceRange = `
+                <div class="style-questionnaire">
+                    <h3>Select Your Price Range</h3>
+                    <div class="price-range">
+                        <input type="number" placeholder="Min" id="minPrice">
+                        <span>to</span>
+                        <input type="number" placeholder="Max" id="maxPrice">
+                    </div>
+                    <div class="quick-options">
+                        <div class="quick-option" onclick="applyPriceFilter()">Apply Filter</div>
+                    </div>
+                </div>
+            `;
+            addMessage(priceRange);
+        }
+
+        function applyPriceFilter() {
+            const minPrice = document.getElementById('minPrice').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+            addMessage(`Showing items between ₹${minPrice} and ₹${maxPrice}`);
+            // Add logic to filter products based on price range
+        }
+
+        // Add event listeners for color options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('color-option')) {
+                const colorOptions = e.target.parentElement.querySelectorAll('.color-option');
+                colorOptions.forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+            }
+        });
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                const response = generateRecommendation(message);
+                setTimeout(() => addMessage(response), 1000);
+                userInput.value = '';
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html> 

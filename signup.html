@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Cara</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8f57c3;
+            --secondary-color: #000000;
+            --accent-color: #e6a756;
+            --text-color: #000000;
+            --light-bg: #E6E6FA;
+            --white: #ffffff;
+            --error-color: #ff4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-container {
+            display: flex;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 900px;
+            max-width: 95%;
+            margin: 2rem;
+        }
+
+        .signup-form {
+            flex: 1;
+            padding: 3rem;
+            background: var(--white);
+        }
+
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), #066c65);
+            padding: 3rem;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(8,129,120,0.1);
+            outline: none;
+        }
+
+        .form-group .icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .signup-btn:hover {
+            background: #066c65;
+            transform: translateY(-2px);
+        }
+
+        .welcome-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-section p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .login-link {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--white);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .login-link:hover {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                flex-direction: column;
+            }
+
+            .signup-form, .welcome-section {
+                padding: 2rem;
+            }
+
+            .welcome-section {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-form">
+            <div class="form-header">
+                <h2>Registration</h2>
+            </div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                    <i class="fas fa-user icon"></i>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <i class="fas fa-envelope icon"></i>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                    <i class="fas fa-lock icon"></i>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                    <i class="fas fa-lock icon"></i>
+                </div>
+                <div class="error-message" id="password-error" style="display: none; color: var(--error-color); font-size: 0.85rem; margin-top: -1rem; margin-bottom: 1rem;">
+                    Passwords do not match
+                </div>
+                <button type="submit" class="signup-btn">Register</button>
+            </form>
+        </div>
+        <div class="welcome-section">
+            <h2>Welcome Back!</h2>
+            <p>Already have an account? Sign in to access your profile and continue shopping.</p>
+            <a href="login.html" class="login-link">Login</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const passwordError = document.getElementById('password-error');
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                passwordError.style.display = 'block';
+                return;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            // Create user object
+            const user = {
+                fullname: fullname,
+                email: email,
+                password: password
+            };
+
+            // Store user data in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(user));
+
+            // Show success message and redirect
+            alert('Registration successful!');
+            window.location.href = 'login.html';
+        });
+
+        // Real-time password validation
+        document.getElementById('confirm-password').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const passwordError = document.getElementById('password-error');
+
+            if (password !== confirmPassword) {
+                passwordError.style.display = 'block';
+            } else {
+                passwordError.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

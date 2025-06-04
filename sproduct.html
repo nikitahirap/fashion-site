@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        .colored-toast.swal2-icon-success {
+            background-color: #088178 !important;
+            color: white !important;
+        }
+        .colored-toast .swal2-title {
+            color: white !important;
+        }
+        .colored-toast .swal2-close {
+            color: white !important;
+        }
+        .colored-toast .swal2-html-container {
+            color: white !important;
+        }
+        
+        /* Add these new styles */
+        button.normal i {
+            margin-right: 8px;
+        }
+        
+        button.normal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            padding: 12px 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <section id="header">
+        <a href="#"><img src="logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a class="active" href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blogs</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <!-- Update the cart icon in header -->
+                <!-- Move this style to the head section -->
+                <style>
+                    #lg-bag {
+                        position: relative;
+                    }
+                    
+                    .cart-count {
+                        position: absolute;
+                        top: -8px;
+                        right: -8px;
+                        background: #088178;
+                        color: white;
+                        border-radius: 50%;
+                        padding: 2px 6px;
+                        font-size: 12px;
+                        min-width: 15px;
+                        text-align: center;
+                    }
+                </style>
+                
+                <!-- Update the cart icon in navbar -->
+                <li id="lg-bag">
+                    <a href="cart.html">
+                        <i class="far fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </li>
+                
+                <!-- Add this to your main script section -->
+                <script>
+                    // Function to update cart count
+                    function updateCartCount() {
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const cartCount = document.querySelector('.cart-count');
+                        if (cartCount) {
+                            cartCount.textContent = cart.length;
+                        }
+                    }
+                
+                    // Update cart count on page load
+                    document.addEventListener('DOMContentLoaded', updateCartCount);
+                
+                    // Add this inside your existing addToCart function right after localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                </script>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="prodetails" class="section-p1">
+        <div class="single-pro-image">
+            <img src="f1.jpg" width="100%" alt="" class="product-img">
+        </div>    
+        <div class="single-pro-details">
+            <h6>Home / T-Shirt</h6>
+            <h4>Men's Fashion T Shirt</h4>
+            <h2>Rs.420.00</h2>
+            <select>
+                <option>Select size</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+                <option>XXL</option>
+                <option>Large</option>
+            </select>
+            <input type="number" value="1">
+            <button class="normal" onclick="addToCart()">
+                <i class="far fa-shopping-cart"></i> Add To Cart
+            </button>
+
+            <h4>Product details</h4>
+            <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Reiciendis quibusdam voluptate voluptas voluptatem nemo,
+                incidunt illo expedita ipsum iure, nostrum totam ullam
+                alias natus deleniti similique harum eos! Iure quis 
+                ducimus qui consequuntur modi quidem?
+            </span>
+        </div>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Summer Collection New Morden Design </p>
+        <div class="pro-container">
+            <!-- First 4 products remain the same -->
+    
+            <!-- Fix these products by moving them inside pro-container -->
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f2.jpg'">
+                <img src="f2.jpg" alt="Corset Style Top">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Vintage Corset Lace-up Top</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+    
+            <!-- Continue with other products inside pro-container -->
+        </div>
+    </section>
+
+    <section id="pagination" class="section-p1">
+        <a href="shop.html"><i class="fal fa-long-arrow-alt-left"></i></a>
+        <a href="blog.html"><i class="fal fa-long-arrow-alt-right"></i></a>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>Sepcial offers.</span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="logo.png">
+            <h4>Conatct</h4>
+            <p><strong>Address:</strong> andheri west</p>
+            <p><strong>Phone:</strong>7208671018</p>
+            <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us on</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In </a>
+            <a href="#">View Cart </a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="app.jpg">
+                <img src="play.jpg">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="pay.png">
+        </div>
+        <div class="copyright">
+            <p></p>
+        </div>
+    </footer>
+
+    <script>
+        // Get the image parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const imgParam = urlParams.get('img');
+        
+        // Update product image if parameter exists
+        if (imgParam) {
+            document.querySelector('.product-img').src = imgParam;
+        }
+
+        // Product details mapping
+        const products = {
+            'f1.jpg': {
+                name: 'Vintage Corset Lace-up Top',
+                price: 'Rs.780',
+                details: 'A beautiful vintage-inspired corset top with adjustable lace-up details. Perfect for both casual and dressy occasions.'
+            },
+            'f2.jpg': {
+                name: 'Floral Print Crop Top',
+                price: 'Rs.380',
+                details: 'Trendy floral print crop top with a comfortable fit. Great for summer styling.'
+            },
+            'f3.jpg': {
+                name: 'Heart Pattern Long Sleeve Shirt',
+                price: 'Rs.470',
+                details: 'Charming heart pattern long sleeve shirt. Soft fabric with a relaxed fit.'
+            },
+            'f4.jpg': {
+                name: 'Cherry Blossom Print Shirt',
+                price: 'Rs.550',
+                details: 'Elegant cherry blossom print shirt. Perfect for spring and summer occasions.'
+            },
+            'f6.jpg': {
+                name: 'Floral Maxi Dress',
+                price: 'Rs.650',
+                details: 'Beautiful floral maxi dress with a flowing silhouette. Perfect for summer events and casual outings.'
+            },
+            'f8.jpg': {
+                name: 'Elegant Evening Dress',
+                price: 'Rs.850',
+                details: 'Stunning evening dress with elegant design. Perfect for formal occasions and special events.'
+            },
+            'n1.jpg': {
+                name: 'Pink Graphic Print Ruched Top',
+                price: 'Rs.780',
+                details: 'Stylish pink top with graphic prints and ruched details. Modern and trendy design.'
+            },
+            'n2.jpg': {
+                name: 'Classic Grey Oxford Shirt',
+                price: 'Rs.780',
+                details: 'Timeless grey oxford shirt perfect for any formal or casual occasion.'
+            },
+            'n3.jpg': {
+                name: 'Crisp White Business Shirt',
+                price: 'Rs.780',
+                details: 'Professional white business shirt with a crisp, clean look.'
+            },
+            'n4.jpg': {
+                name: 'Beige Printed Summer Shirt',
+                price: 'Rs.780',
+                details: 'Comfortable beige shirt with modern prints, perfect for summer.'
+            }
+        };
+
+        // Update product details based on image
+        if (imgParam && products[imgParam]) {
+            const product = products[imgParam];
+            document.querySelector('.single-pro-details h4').textContent = product.name;
+            document.querySelector('.single-pro-details h2').textContent = product.price;
+            document.querySelector('.single-pro-details span').textContent = product.details;
+        }
+
+        // Add to cart function
+        function addToCart() {
+            try {
+                const size = document.querySelector('select').value;
+                const quantity = parseInt(document.querySelector('input[type="number"]').value);
+                
+                // Add validation for quantity
+                if (quantity <= 0 || isNaN(quantity)) {
+                    throw new Error('Please enter a valid quantity');
+                }
+                
+                // Add validation for size
+                if (size === 'Select size') {
+                    throw new Error('Please select a size');
+                }
+
+                // Get current cart
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                // Get product details
+                const imgParam = new URLSearchParams(window.location.search).get('img');
+                if (!imgParam || !products[imgParam]) {
+                    throw new Error('Product not found');
+                }
+
+                // Add to cart
+                cart.push({
+                    id: `${imgParam}_${size}_${Date.now()}`,
+                    image: imgParam,
+                    name: products[imgParam].name,
+                    price: parseFloat(products[imgParam].price.replace('Rs.', '')),
+                    size: size,
+                    quantity: quantity
+                });
+
+                // Save cart
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Success message
+                Swal.fire({
+                    title: 'Added to cart!',
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    customClass: {
+                        popup: 'colored-toast'
+                    }
+                });
+
+            } catch (error) {
+                Swal.fire({
+                    title: error.message,
+                    icon: 'warning',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    customClass: {
+                        popup: 'colored-toast'
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="new.js"></script>
+</body>
+</html>

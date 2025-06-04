@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Placeholders</title>
+</head>
+<body>
+    <canvas id="clothingCanvas" width="400" height="500" style="display: none;"></canvas>
+    <canvas id="modelCanvas" width="400" height="500" style="display: none;"></canvas>
+    <canvas id="resultCanvas" width="400" height="500" style="display: none;"></canvas>
+    
+    <script>
+        const cloudinaryConfig = {
+            cloudName: 'mystore',
+            uploadPreset: 'mypreset'
+        };
+        
+        function createPlaceholder(canvasId, text) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Text
+            ctx.fillStyle = '#088178';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, canvas.width/2, canvas.height/2);
+            
+            // Border
+            ctx.strokeStyle = '#088178';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(10, 10, canvas.width-20, canvas.height-20);
+            
+            // Convert to image
+            const link = document.createElement('a');
+            link.download = canvasId.replace('Canvas', '') + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+        
+        // Generate all placeholders
+        window.onload = function() {
+            createPlaceholder('clothingCanvas', 'Upload Clothing Image');
+            createPlaceholder('modelCanvas', 'Upload Model Image');
+            createPlaceholder('resultCanvas', 'Result will appear here');
+        };
+    </script>
+</body>
+</html> 

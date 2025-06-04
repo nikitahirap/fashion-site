@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offer - Buy 1 Get 1 Free</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .offer-container {
+            padding: 40px 80px;
+            text-align: center;
+        }
+
+        .offer-header {
+            margin-bottom: 40px;
+        }
+
+        .offer-header h1 {
+            color: #088178;
+            font-size: 46px;
+            margin-bottom: 20px;
+        }
+
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .offer-item {
+            padding: 20px;
+            border: 1px solid #e1e1e1;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .offer-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .offer-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .offer-item h3 {
+            color: #1a1a1a;
+            margin: 15px 0;
+        }
+
+        .offer-item .price {
+            color: #088178;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .terms {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #088178;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #066c65;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img src="logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blogs</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <div class="offer-container">
+        <div class="offer-header">
+            <h1>Buy 1 Get 1 Free</h1>
+            <p>Limited time offer on our classic collection. Mix and match your favorite styles!</p>
+        </div>
+
+        <div class="offer-grid">
+            <div class="offer-item">
+                <img src="f1.jpg" alt="Classic Dress 1">
+                <h3>Vintage Corset Lace-up Top</h3>
+                <p>Perfect for any occasion</p>
+                <div class="price">Rs.780</div>
+            </div>
+
+            <div class="offer-item">
+                <img src="f2.jpg" alt="Classic Dress 2">
+                <h3>Floral Print Crop Top</h3>
+                <p>Elegant and comfortable</p>
+                <div class="price">Rs.380</div>
+            </div>
+
+            <div class="offer-item">
+                <img src="f3.jpg" alt="Classic Dress 3">
+                <h3>Heart Pattern Long Sleeve</h3>
+                <p>Timeless design</p>
+                <div class="price">Rs.470</div>
+            </div>
+        </div>
+
+        <div class="terms">
+            <h3>Offer Terms & Conditions</h3>
+            <p>• Valid on selected items only</p>
+            <p>• Offer valid until stocks last</p>
+            <p>• Cannot be combined with other promotions</p>
+            <p>• Free item must be of equal or lesser value</p>
+        </div>
+
+        <a href="shop.html" class="cta-button">Shop Now</a>
+    </div>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>Special offers.</span></p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <!-- Your existing footer content -->
+    </footer>
+
+    <script src="new.js"></script>
+</body>
+</html>

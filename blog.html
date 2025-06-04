@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Blog - Cara</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+</head>
+<body>
+    
+    <section id="header">
+        <a href="#"><img src="logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a  href="shop.html">Shop</a></li>
+                <li><a class="active" href="blog.html">Blogs</a></li>
+                <li><a href="tryon.html">Virtual Try-On</a></li>
+                <li><a href="chatbot.html">Fashion Assistant</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a></li>
+                <li class="user-profile">
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="page-header" class="blog-header">
+        <h2>#FashionInsights</h2>
+        <p>Discover the latest trends, style tips, and fashion inspiration!</p>
+    </section>
+
+    <!-- Blog Categories Navigation -->
+    <nav id="blog-categories">
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All Posts</button>
+            <button class="category-btn" data-category="trends">Fashion Trends</button>
+            <button class="category-btn" data-category="style">Style Tips</button>
+            <button class="category-btn" data-category="sustainable">Sustainable Fashion</button>
+            <button class="category-btn" data-category="celebrity">Celebrity Style</button>
+        </div>
+    </nav>
+
+    <section id="blog">
+        <div id="blog-box-container"></div>
+    </section>
+
+    <section id="pagination" class="section-p1">
+        <a href="shop.html"><i class="fal fa-long-arrow-alt-left"></i></a>
+        <a href="about.html"><i class="fal fa-long-arrow-alt-right"></i></a>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>Sepcial offers.</span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="logo.png">
+            <h4>Conatct</h4>
+            <p><strong>Address:</strong> Andheri west</p>
+            <p><strong>Phone:</strong>7208671018</p>
+            <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us on</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In </a>
+            <a href="#">View Cart </a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="row">
+                <img src="app.jpg">
+                <img src="play.jpg">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="pay.png">
+        </div>
+        <div class="copyright">
+            <p>Nikita fashion site</p>
+        </div>
+    </footer>
+
+    <script src="new.js"></script>
+    <script>
+        // Fetch blog posts from API
+        async function fetchBlogPosts(category = 'all') {
+            const blogSection = document.getElementById('blog');
+            blogSection.innerHTML = '<div class="loading">Loading blog posts...</div>';
+            
+            try {
+                const url = category === 'all' 
+                    ? '/E-commerce-Clothing--main/E-commerce-Clothing--main/api/blog_api.php'
+                    : `/E-commerce-Clothing--main/E-commerce-Clothing--main/api/blog_api.php?category=${category}`;
+                
+                console.log('Fetching from:', url);
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Received data:', data);
+                
+                if (data.status === 'success' && data.data) {
+                    if (data.data.length === 0) {
+                        blogSection.innerHTML = `
+                            <div class="error-message">
+                                <p>No blog posts found for this category.</p>
+                            </div>
+                        `;
+                    } else {
+                        displayBlogPosts(data.data);
+                    }
+                } else {
+                    throw new Error('Invalid data format received from API');
+                }
+            } catch (error) {
+                console.error('Error fetching blog posts:', error);
+                blogSection.innerHTML = `
+                    <div class="error-message">
+                        <p>Unable to load blog posts. Please try again later.</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display blog posts
+        function displayBlogPosts(posts) {
+            const blogContainer = document.getElementById('blog');
+            blogContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const blogBox = document.createElement('div');
+                blogBox.className = 'blog-box';
+                blogBox.innerHTML = `
+                    <div class="blog-img">
+                        <img src="blog-images/${post.image_url}" alt="${post.title}" onerror="this.src='blog-images/placeholder.jpg'">
+                    </div>
+                    <div class="blog-details">
+                        <span class="blog-category">${post.category}</span>
+                        <h4>${post.title}</h4>
+                        <p>${post.content}</p>
+                        <div class="blog-interaction">
+                            <div class="social-share">
+                                <a href="#" class="share-btn" onclick="sharePost('facebook', ${post.id})">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                                <a href="#" class="share-btn" onclick="sharePost('twitter', ${post.id})">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="share-btn" onclick="sharePost('pinterest', ${post.id})">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
+                            </div>
+                            <div class="blog-stats">
+                                <span>
+                                    <i class="far fa-heart" onclick="handleLike(${post.id}, this)"></i>
+                                    <span class="like-count">${post.likes}</span>
+                                </span>
+                                <span>
+                                    <i class="far fa-comment"></i>
+                                    <span class="comment-count">${post.comments}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <a href="blog-post.html?id=${post.id}" class="read-more">CONTINUE READING</a>
+                    </div>
+                    <h1>${new Date(post.created_at).getDate()}/${new Date(post.created_at).getMonth() + 1}/${new Date(post.created_at).getFullYear()}</h1>
+                `;
+                blogContainer.appendChild(blogBox);
+            });
+        }
+
+        // Handle category filtering
+        function filterBlogs(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-category') === category || 
+                   (category === 'all' && btn.textContent === 'All')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            fetchBlogPosts(category);
+        }
+
+        // Handle like functionality
+        async function handleLike(postId, heartIcon) {
+            try {
+                const response = await fetch('/E-commerce-Clothing--main/E-commerce-Clothing--main/api/blog_api.php', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        post_id: postId,
+                        likes: true
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.status === 'success') {
+                    heartIcon.classList.toggle('fas');
+                    heartIcon.classList.toggle('far');
+                    const countSpan = heartIcon.nextElementSibling;
+                    let count = parseInt(countSpan.textContent);
+                    countSpan.textContent = heartIcon.classList.contains('fas') ? count + 1 : count - 1;
+                }
+            } catch (error) {
+                console.error('Error updating like:', error);
+                alert('Unable to update like. Please try again later.');
+            }
+        }
+
+        // Share functionality
+        function sharePost(platform, postId) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Check out this amazing fashion blog post!');
+            
+            let shareUrl = '';
+            switch(platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+                    break;
+                case 'pinterest':
+                    shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&description=${text}`;
+                    break;
+            }
+            
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+            return false;
+        }
+
+        // Add loading style
+        const style = document.createElement('style');
+        style.textContent = `
+            .loading {
+                text-align: center;
+                padding: 20px;
+                font-size: 18px;
+                color: #088178;
+            }
+            .error-message {
+                text-align: center;
+                padding: 20px;
+                color: #721c24;
+                background-color: #f8d7da;
+                border: 1px solid #f5c6cb;
+                border-radius: 4px;
+                margin: 20px 0;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Load posts when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBlogPosts();
+        });
+    </script>
+</body>
+</html>

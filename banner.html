@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner - Cara</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #088178;
+            --secondary-color: #1a1a1a;
+            --accent-color: #e6a756;
+            --text-color: #333;
+            --light-bg: #E6E6FA;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+        }
+
+        .banner-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .banner-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, rgba(8,129,120,0.1), rgba(230,167,86,0.1));
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .banner-header .logo {
+            position: absolute;
+            left: 2rem;
+            top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .banner-header .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .banner-header .logo img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        }
+
+        .banner-header h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInDown 1s ease;
+            padding-top: 1rem;
+        }
+
+        .banner-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .banner-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .banner-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .banner-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .banner-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .banner-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--white);
+        }
+
+        .banner-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .banner-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .banner-content button {
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .banner-content button:hover {
+            background: #066c65;
+            transform: translateY(-2px);
+        }
+
+        .banner-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-features {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-item img {
+                height: 300px;
+            }
+        }
+
+        /* New Featured Products Section */
+        .featured-products {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .featured-products h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .featured-products h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .product-info h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .product-info .price {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            margin-top: 4rem;
+            background: linear-gradient(135deg, var(--primary-color), #066c65);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .newsletter-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-section p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: #d4954a;
+            transform: translateX(5px);
+        }
+
+        /* Social Media Section */
+        .social-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .social-section h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-10px);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                border-radius: 25px;
+                margin-bottom: 1rem;
+            }
+
+            .newsletter-form button {
+                border-radius: 25px;
+            }
+
+            .social-icons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner-container">
+        <div class="banner-header">
+            <div class="logo">
+                <img src="logo.png" alt="Cara Logo">
+            </div>
+            <h1>Special Offers</h1>
+            <p>Discover our latest deals and exclusive offers on trendy fashion items</p>
+        </div>
+
+        <div class="banner-grid">
+            <div class="banner-item" onclick="window.location.href='shop.html'">
+                <img src="b1.jpg" alt="Summer Sale">
+                <div class="banner-content">
+                    <h2>Summer Sale</h2>
+                    <p>Get up to 70% off on summer collection</p>
+                    <button>Shop Now</button>
+                </div>
+            </div>
+
+            <div class="banner-item" onclick="window.location.href='shop.html'">
+                <img src="b2.jpg" alt="New Arrivals">
+                <div class="banner-content">
+                    <h2>New Arrivals</h2>
+                    <p>Check out our latest fashion trends</p>
+                    <button>Explore</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-features">
+            <div class="feature-item">
+                <i class="fas fa-truck"></i>
+                <h3>Free Shipping</h3>
+                <p>Free delivery on orders over Rs. 5000</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-undo"></i>
+                <h3>Easy Returns</h3>
+                <p>30-day hassle-free returns</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Payment</h3>
+                <p>100% secure payment options</p>
+            </div>
+        </div>
+
+        <!-- Featured Products Section -->
+        <div class="featured-products">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <div class="product-card" onclick="window.location.href='sproduct.html?img=f1.jpg'">
+                    <img src="f1.jpg" alt="Product 1">
+                    <div class="product-info">
+                        <h3>Vintage Corset Lace-up Top</h3>
+                        <p class="price">Rs.780</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='sproduct.html?img=f2.jpg'">
+                    <img src="f2.jpg" alt="Product 2">
+                    <div class="product-info">
+                        <h3>Classic Denim Jacket</h3>
+                        <p class="price">Rs.950</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='sproduct.html?img=f3.jpg'">
+                    <img src="f3.jpg" alt="Product 3">
+                    <div class="product-info">
+                        <h3>Summer Floral Dress</h3>
+                        <p class="price">Rs.1200</p>
+                    </div>
+                </div>
+                <div class="product-card" onclick="window.location.href='sproduct.html?img=f4.jpg'">
+                    <img src="f4.jpg" alt="Product 4">
+                    <div class="product-info">
+                        <h3>Casual Linen Shirt</h3>
+                        <p class="price">Rs.850</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Get the latest updates on new products and upcoming sales</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="social-section">
+            <h2>Follow Us</h2>
+            <div class="social-icons">
+                <div class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-pinterest-p"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

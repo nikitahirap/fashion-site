@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Enhanced Navigation */
+        #navbar li a {
+            transition: color 0.3s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        #navbar li a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #088178;
+            transition: width 0.3s ease;
+        }
+
+        #navbar li a:hover::after {
+            width: 100%;
+        }
+
+        #navbar li a:hover {
+            color: #088178;
+        }
+
+        /* Hero Section Animation Enhancement */
+        #hero {
+            position: relative;
+            overflow: hidden;
+            background-image: url('bg1.jpg');
+            background-size: 120% auto;  /* Zoomed out slightly */
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: center 50% }
+            50% { background-position: center 55% }
+            100% { background-position: center 50% }
+        }
+
+        #hero h4 {
+            animation: slideInDown 1s ease-out, glowText 2s ease-in-out infinite;
+        }
+
+        #hero h2 {
+            animation: slideInLeft 1s ease-out, float 3s ease-in-out infinite;
+        }
+
+        #hero h1 {
+            animation: slideInRight 1s ease-out, float 3s ease-in-out infinite;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 5px rgba(8,129,120,0.3); }
+            50% { text-shadow: 0 0 20px rgba(8,129,120,0.6); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #hero button {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, #088178, #066c65);
+            border: none;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        #hero button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Feature Boxes Animation */
+        .fe-box {
+            animation: popIn 0.5s ease-out backwards;
+        }
+
+        .fe-box img {
+            transition: transform 0.3s ease;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .fe-box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Product Cards Enhanced Animation */
+        .pro {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.3s ease;
+        }
+
+        .pro:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pro img {
+            transition: transform 0.3s ease;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .pro:hover img {
+            transform: scale(1.02);
+        }
+
+        .star i {
+            animation: starPulse 2s infinite;
+        }
+
+        .star i:nth-child(1) { animation-delay: 0.1s; }
+        .star i:nth-child(2) { animation-delay: 0.2s; }
+        .star i:nth-child(3) { animation-delay: 0.3s; }
+        .star i:nth-child(4) { animation-delay: 0.4s; }
+        .star i:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #ffd700; }
+        }
+
+        /* Banner Enhanced Animation */
+        #banner {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(8,129,120,0.3), transparent);
+            animation: gradientMove 8s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(50%) rotate(180deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        #banner h2 span {
+            display: inline-block;
+            animation: bounceIn 1s ease infinite;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+
+        @keyframes bounceIn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Newsletter Enhanced Animation */
+        #newsletter {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #newsletter::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(8,129,120,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #newsletter .form input {
+            transition: all 0.3s ease;
+        }
+
+        #newsletter .form input:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(8,129,120,0.2);
+        }
+
+        #newsletter button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        #newsletter button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(8,129,120,0.2);
+        }
+
+        /* Footer Social Icons Enhanced Animation */
+        footer .icon i {
+            transition: all 0.3s ease;
+        }
+
+        footer .icon i:hover {
+            animation: socialBounce 0.5s ease infinite;
+            color: #088178;
+        }
+
+        @keyframes socialBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Small Banner Box Enhanced Animation */
+        .banner-box {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .banner-box:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .banner-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Banner Box Images */
+        .banner-box img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .banner-box:hover img {
+            transform: scale(1.02);
+        }
+
+        /* Add 3D perspective to the entire page */
+        body {
+            perspective: 1000px;
+        }
+
+        section {
+            transform-style: preserve-3d;
+            transition: none;
+        }
+
+        section:hover {
+            transform: none;
+        }
+
+        .user-profile {
+            position: relative;
+            padding: 0 15px;
+        }
+        
+        #userInfo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #userInfo span {
+            color: #1a1a1a;
+        }
+        
+        #userName {
+            color: #088178;
+            font-weight: 600;
+        }
+
+        #lg-bag a {
+            position: relative;
+        }
+
+        #lg-bag .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #088178;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            min-width: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <section id="header">
+        <a href="#"><img src="logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blogs</a></li>
+                <li><a href="tryon.html">Virtual Try-On</a></li>
+                <li><a href="chatbot.html">Fashion Assistant</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a></li>
+                <li class="user-profile">
+                    <a href="login.html" id="loginLink">Login</a>
+                    <div id="userInfo" style="display: none;">
+                        <span>Welcome, <span id="userName"></span></span>
+                        <a href="#" onclick="logout()" style="color: #088178;">Logout</a>
+                    </div>
+                </li>
+                <a href="#" id="close"><i class="fas fa-times"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+            <i id="bar" class="fas fa-outdent"></i>
+        </div>
+    </section>
+
+    <section id="hero">
+        <h4>Trade-in-offer</h4>
+        <h2>Super value deals</h2>
+        <h1>On all products</h1>
+        <p>Save more with coupons & up to 70% off! </p>
+        <a href="shop.html">
+            <button>Shop Now</button>
+        </a>
+        
+    </section>
+
+    <section id="feature" class="section-p1">
+        <div class="fe-box">
+            <img src="f1.png">
+            <h6>Free Shipping</h6>
+        </div>
+
+        <div class="fe-box">
+            <img src="f2.png">
+            <h6>Online Order</h6>
+        </div>
+
+        <div class="fe-box">
+            <img src="f3.png">
+            <h6>Save Money</h6>
+        </div>
+
+        <div class="fe-box">
+            <img src="f4.png">
+            <h6>Promotions</h6>
+        </div>
+
+        <div class="fe-box">
+            <img src="f5.png">
+            <h6>Happy Sell</h6>
+        </div>
+
+        <div class="fe-box">
+            <img src="f6.png">
+            <h6>Support</h6>
+        </div>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h2>Featured Products</h2>
+        <p>Summer Collection New Morden Design </p>
+        <div class="pro-container" >
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f1.jpg'">
+                <img src="f1.jpg" alt="Corset Style Top">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Vintage Corset Lace-up Top</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f2.jpg'">
+                <img src="f2.jpg" alt="Floral T-shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Floral Print Crop Top</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.380</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f3.jpg'">
+                <img src="f3.jpg" alt="Heart Pattern Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Heart Pattern Long Sleeve Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.470</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f4.jpg'">
+                <img src="f4.jpg" alt="Floral Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Cherry Blossom Print Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.550</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f5.jpg'">
+                <img src="f5.jpg" alt="Beige Linen Pants">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Embroidered Linen Pants</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.460</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f6.jpg'">
+                <img src="f6.jpg" alt="Floral Maxi Dress">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Floral Print Maxi Dress</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.830</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f7.jpg'">
+                <img src="f7.jpg" alt="Sage Green Sweater">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Sage Green Knit Sweater</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=f8.jpg'">
+                <img src="f8.jpg" alt="Printed Kimono">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Artistic Print Kimono</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="banner" class="section-m1">
+        <h4>Reapir Services</h4>
+        <h2>Up to<span>70% off</span> -All T-Shirts & Accessories</h2>
+        <button class="normal">Explore More</button>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h2>New Arrivals</h2>
+        <p>Summer Collection New Morden Design </p>
+        <div class="pro-container">
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n1.jpg'">
+                <img src="n1.jpg" alt="Pink Graphic Print Top">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Pink Graphic Print Ruched Top</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n2.jpg'">
+                <img src="n2.jpg" alt="Grey Oxford Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Classic Grey Oxford Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n3.jpg'">
+                <img src="n3.jpg" alt="White Business Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Crisp White Business Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n4.jpg'">
+                <img src="n4.jpg" alt="Beige Printed Summer Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Beige Printed Summer Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n5.jpg'">
+                <img src="n5.jpg" alt="White Button-Up Jacket">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>White Cotton Button-Up Jacket</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n6.jpg'">
+                <img src="n6.jpg" alt="Grey Striped Shorts">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Grey Striped Summer Shorts</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n7.jpg'">
+                <img src="n7.jpg" alt="Mint Green Sweatshirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Mint Green Collared Sweatshirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+            <div class="pro" onclick="window.location.href='sproduct.html?img=n8.jpg'">
+                <img src="n8.jpg" alt="Navy Short Sleeve Shirt">
+                <div class="des">
+                    <span>Adidas</span>
+                    <h5>Navy Cotton Short Sleeve Shirt</h5>
+                    <div class="star">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Rs.780</h4>
+                </div>
+                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="sm-banner" class="section-p1">
+        <div class="banner-box">
+            <h4>Crazy deals</h4>
+            <h2>Buy 1 get 1 free</h2>
+            <span>The best classic dress is on sale at cara</span>
+            <button class="white" onclick="window.location.href='special-offer.html'">Learn More</button>
+        </div>
+
+        <div class="banner-box banner-box2">
+            <h4>Spring/Summer</h4>
+            <h2>Buy 1 get 1 free</h2>
+            <span>The best classic dress is on sale at cara</span>
+            <button class="white">Collection</button>
+        </div>
+    </section>
+
+    <section id="banner3">
+        <div class="banner-box">
+            <h2>SEASONAL SALE</h2>
+            <h3>Winter Collection -50% off</h3>
+        </div>
+
+        <div class="banner-box banner-box2">
+            <h2>NEW FOOTWEAR COLLECTION</h2>
+            <h3>Spring / Summer 2025</h3>
+        </div>
+
+        <div class="banner-box banner-box3">
+            <h2>T-SHIRTS</h2>
+            <h3>New Treandy Prints</h3>
+        </div>
+
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>Sepcial offers.</span>
+            </p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Your email address">
+            <button class="normal">Sign Up</button>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logo" src="logo.png">
+            <h4>Conatct</h4>
+            <p><strong>Address:</strong> andheri west</p>
+            <p><strong>Phone:</strong>7208671018</p>
+            <p><strong>Hours:</strong>10:00 - 18:00, Mon - Sat</p>
+            <div class="follow">
+                <h4>Follow us on</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In </a>
+            <a href="#">View Cart </a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="copyright">
+            <p>Nikita fashion site</p>
+        </div>
+    </footer>
+
+    <script src="new.js"></script>
+    <script>
+        // Check login status when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginLink = document.getElementById('loginLink');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            
+            // Check both localStorage and sessionStorage for user data
+            const user = JSON.parse(localStorage.getItem('currentUser')) || 
+                        JSON.parse(sessionStorage.getItem('currentUser'));
+            
+            if (user) {
+                // User is logged in
+                loginLink.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = user.fullname;
+            } else {
+                // User is not logged in
+                loginLink.style.display = 'block';
+                userInfo.style.display = 'none';
+            }
+        });
+
+        // Logout function
+        function logout() {
+            // Clear both storages
+            localStorage.removeItem('currentUser');
+            sessionStorage.removeItem('currentUser');
+            
+            // Show success message
+            Swal.fire({
+                title: 'Logged Out!',
+                text: 'You have been successfully logged out',
+                icon: 'success',
+                confirmButtonColor: '#088178'
+            }).then(() => {
+                window.location.href = 'login.html';
+            });
+        }
+
+        async function generateTryOn() {
+            const loading = document.querySelector('.loading');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            // Show loading state
+            loading.style.display = 'block';
+            generateBtn.disabled = true;
+
+            try {
+                const clothingFile = document.getElementById('clothingInput').files[0];
+                const modelFile = document.getElementById('modelInput').files[0];
+
+                const formData = new FormData();
+                formData.append('clothing', clothingFile);
+                formData.append('model', modelFile);
+
+                const response = await fetch('YOUR_API_ENDPOINT', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Authorization': 'YOUR_API_KEY'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('resultPreview').src = data.resultUrl;
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: error.message || 'Failed to generate try-on preview',
+                    icon: 'error',
+                    confirmButtonColor: '#088178'
+                });
+            } finally {
+                loading.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
+
+<head>
+    <style>
+        #lg-bag {
+            position: relative;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #088178;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            min-width: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- In your navbar, update the cart icon -->
+    <li id="lg-bag">
+        <a href="cart.html">
+            <i class="far fa-shopping-bag"></i>
+            <span class="cart-count">0</span>
+        </a>
+    </li>
+
+    <!-- Add this before closing body tag -->
+    <script>
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                cartCount.textContent = cart.length;
+            }
+        }
+
+        // Update cart count on page load
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+</body>

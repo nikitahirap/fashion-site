@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On</title>
+    <link rel="stylesheet" href="new.css">
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <style>
+        .upload-section {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
+        .upload-box {
+            border: 2px dashed #088178;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            min-width: 300px;
+            border-radius: 8px;
+        }
+        .preview-image {
+            max-width: 300px;
+            max-height: 300px;
+            margin: 10px 0;
+            display: none;
+        }
+        .status-message {
+            color: #088178;
+            margin: 10px 0;
+        }
+        #tryOnButton {
+            background-color: #088178;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px;
+            display: none;
+        }
+        #tryOnButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px;
+        }
+        .result-section {
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section id="header">
+        <a href="#"><img src="logo.png" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="blog.html">Blogs</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="upload-section">
+        <div class="upload-box">
+            <h3>Upload Clothing Image</h3>
+            <p>Select or drag a clothing item image</p>
+            <button id="uploadClothing" class="normal">Upload Clothing</button>
+            <img id="clothingPreview" class="preview-image" alt="Clothing Preview">
+            <div id="clothingStatus" class="status-message"></div>
+        </div>
+
+        <div class="upload-box">
+            <h3>Upload Model Image</h3>
+            <p>Select or drag your photo</p>
+            <button id="uploadModel" class="normal">Upload Photo</button>
+            <img id="modelPreview" class="preview-image" alt="Model Preview">
+            <div id="modelStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button id="tryOnButton" disabled>Generate Try-On</button>
+    </div>
+
+    <div class="loading">
+        <p>Processing... Please wait...</p>
+    </div>
+
+    <div class="result-section">
+        <img id="resultImage" class="preview-image" alt="Result">
+    </div>
+
+    <script>
+        const cloudinaryConfig = {
+            cloudName: 'dwhnfl4yp',
+            uploadPreset: 'virtual_tryon'
+        };
+
+        let clothingUrl = null;
+        let modelUrl = null;
+
+        // Cloudinary Upload Widget Configuration
+        const widgetConfig = {
+            cloudName: cloudinaryConfig.cloudName,
+            uploadPreset: cloudinaryConfig.uploadPreset,
+            sources: ['local'],
+            multiple: false,
+            maxFiles: 1,
+            resourceType: 'image',
+            clientAllowedFormats: ['png', 'jpg', 'jpeg'],
+            folder: 'virtual_tryon',
+            showAdvancedOptions: false,
+            cropping: false,
+            showSkipCropButton: false,
+            styles: {
+                palette: {
+                    window: "#FFFFFF",
+                    windowBorder: "#90A0B3",
+                    tabIcon: "#088178",
+                    menuIcons: "#088178",
+                    textDark: "#000000",
+                    textLight: "#FFFFFF",
+                    link: "#088178",
+                    action: "#088178",
+                    inactiveTabIcon: "#0E2F5A",
+                    error: "#F44235",
+                    inProgress: "#0078FF",
+                    complete: "#20B832",
+                    sourceBg: "#E4EBF1"
+                }
+            }
+        };
+
+        // Initialize upload widgets with error logging
+        const clothingWidget = cloudinary.createUploadWidget(
+            {
+                ...widgetConfig,
+                folder: 'clothing',  // Simplified folder structure
+                defaultSource: 'local'
+            },
+            handleClothingUpload
+        );
+
+        const modelWidget = cloudinary.createUploadWidget(
+            {
+                ...widgetConfig,
+                folder: 'models',  // Simplified folder structure
+                defaultSource: 'local'
+            },
+            handleModelUpload
+        );
+
+        // Event listeners
+        document.getElementById('uploadClothing').addEventListener('click', () => clothingWidget.open());
+        document.getElementById('uploadModel').addEventListener('click', () => modelWidget.open());
+        document.getElementById('tryOnButton').addEventListener('click', generateTryOn);
+
+        // Handle clothing upload with improved error handling
+        function handleClothingUpload(error, result) {
+            if (error) {
+                console.error('Clothing upload error:', error);
+                document.getElementById('clothingStatus').textContent = 'Upload failed: ' + (error.message || 'Please try again.');
+                return;
+            }
+
+            if (result.event === 'success') {
+                clothingUrl = result.info.secure_url;
+                const preview = document.getElementById('clothingPreview');
+                preview.src = clothingUrl;
+                preview.style.display = 'block';
+                document.getElementById('clothingStatus').textContent = 'Upload successful!';
+                checkEnableTryOn();
+            } else if (result.event === 'abort') {
+                document.getElementById('clothingStatus').textContent = 'Upload cancelled.';
+            } else if (result.event === 'error') {
+                document.getElementById('clothingStatus').textContent = 'Upload failed: ' + (result.info || 'Please try again.');
+            }
+        }
+
+        // Handle model upload with improved error handling
+        function handleModelUpload(error, result) {
+            if (error) {
+                console.error('Model upload error:', error);
+                document.getElementById('modelStatus').textContent = 'Upload failed: ' + (error.message || 'Please try again.');
+                return;
+            }
+
+            if (result.event === 'success') {
+                modelUrl = result.info.secure_url;
+                const preview = document.getElementById('modelPreview');
+                preview.src = modelUrl;
+                preview.style.display = 'block';
+                document.getElementById('modelStatus').textContent = 'Upload successful!';
+                checkEnableTryOn();
+            } else if (result.event === 'abort') {
+                document.getElementById('modelStatus').textContent = 'Upload cancelled.';
+            } else if (result.event === 'error') {
+                document.getElementById('modelStatus').textContent = 'Upload failed: ' + (result.info || 'Please try again.');
+            }
+        }
+
+        // Check if both images are uploaded to enable try-on button
+        function checkEnableTryOn() {
+            const tryOnButton = document.getElementById('tryOnButton');
+            if (clothingUrl && modelUrl) {
+                tryOnButton.style.display = 'inline-block';
+                tryOnButton.disabled = false;
+            }
+        }
+
+        // Generate try-on result
+        async function generateTryOn() {
+            if (!clothingUrl || !modelUrl) {
+                alert('Please upload both images first.');
+                return;
+            }
+
+            const tryOnButton = document.getElementById('tryOnButton');
+            const loading = document.querySelector('.loading');
+            tryOnButton.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                // Extract public IDs from URLs
+                const getPublicId = (url) => {
+                    const matches = url.match(/\/upload\/v\d+\/(.+)\./);
+                    return matches ? matches[1] : null;
+                };
+
+                const clothingId = getPublicId(clothingUrl);
+                const modelId = getPublicId(modelUrl);
+
+                console.log('Clothing URL:', clothingUrl);
+                console.log('Model URL:', modelUrl);
+                console.log('Clothing ID:', clothingId);
+                console.log('Model ID:', modelId);
+
+                if (!clothingId || !modelId) {
+                    throw new Error('Could not extract image IDs');
+                }
+
+                // Create the transformation URL
+                const baseUrl = `https://res.cloudinary.com/${cloudinaryConfig.cloudName}/image/upload`;
+
+                // First, create a version of the clothing with background removed
+                const clothingTransform = [
+                    'c_scale,w_600',
+                    'e_bgremoval'
+                ].join('/');
+
+                // Create the final composite
+                const finalTransform = [
+                    'c_fill,w_800',  // Base width for model
+                    `l_${encodeURIComponent(clothingId)}`,  // URL encode the full path
+                    'c_scale,w_0.8',  // Scale clothing
+                    'g_auto',  // Automatic positioning
+                    'co_rgb:FFFFFF,e_colorize,l_0',  // Optional: adjust color and lighting
+                    'fl_layer_apply',  // Apply the overlay
+                    'q_auto'  // Automatic quality
+                ].join('/');
+
+                const resultUrl = `${baseUrl}/${finalTransform}/${modelId}`;
+                console.log('Final transformation URL:', resultUrl);
+
+                // Display result
+                const resultImage = document.getElementById('resultImage');
+                resultImage.onload = () => {
+                    loading.style.display = 'none';
+                    resultImage.style.display = 'block';
+                };
+                resultImage.onerror = (e) => {
+                    console.error('Image load error:', e);
+                    loading.style.display = 'none';
+                    alert('Failed to generate try-on. Please try with different images or check your internet connection.');
+                    console.log('Final result URL:', resultUrl);
+                };
+
+                // Load the final composite
+                resultImage.src = resultUrl;
+
+            } catch (error) {
+                console.error('Try-on generation error:', error);
+                loading.style.display = 'none';
+                alert('Error: ' + error.message);
+            } finally {
+                tryOnButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
